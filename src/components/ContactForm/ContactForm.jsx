@@ -3,8 +3,10 @@ import { Formik, Form, ErrorMessage } from 'formik';
 import * as yup from 'yup';
 import { selectContacts } from 'redux/contactsSlice';
 import { Box } from 'components/Box';
-import { ErrorText, InputTitle, Input, Button } from './ContactForm.styled';
-import { addContact } from 'redux/operations';
+import { ErrorText, InputTitle, Input } from './ContactForm.styled';
+import { Button } from 'components/Button';
+import { addContact, updateContact } from 'redux/operations';
+import { toast } from 'react-toastify';
 
 const initialValues = {
   name: '',
@@ -32,7 +34,20 @@ export const ContactForm = () => {
     );
 
     if (foundContact) {
-      return alert(`${name} is already in contacts`);
+      console.log('🚀 ~ saveContact ~ foundContact', foundContact);
+      if (foundContact.number === number.trim()) {
+        return toast(`${name} is already in contacts`);
+      } else {
+        const updatedContact = {
+          id: foundContact.id,
+          name,
+          number,
+        };
+        dispatch(updateContact(updatedContact));
+        return toast(
+          `${name} is already in contacts. The phone number has been updated.`
+        );
+      }
     }
 
     const newContact = {
@@ -44,7 +59,7 @@ export const ContactForm = () => {
   };
 
   // --------------------------------
-  const handleSumbmit = (values, { resetForm }) => {
+  const handleSubmit = (values, { resetForm }) => {
     saveContact({
       name: values.name,
       number: values.number,
@@ -56,7 +71,7 @@ export const ContactForm = () => {
   return (
     <Formik
       initialValues={initialValues}
-      onSubmit={handleSumbmit}
+      onSubmit={handleSubmit}
       validationSchema={schema}
     >
       <Form>
@@ -108,5 +123,6 @@ export const ContactForm = () => {
         <Button type="submit">Add contact</Button>
       </Form>
     </Formik>
+    // <ToastContainer closeButton={CloseButton} />
   );
 };

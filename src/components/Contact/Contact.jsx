@@ -1,13 +1,16 @@
 import PropTypes from 'prop-types';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { ImCheckmark, ImBin } from 'react-icons/im';
 import { Box } from 'components/Box';
 import { theme } from 'constants';
 import { Item, Button } from './Contact.styled';
 import { deleteContact } from 'redux/operations';
+import { LoaderSmall } from 'components/LoaderSmall';
+import { selectors } from 'redux/selectors';
 
 export const Contact = ({ id, name, number }) => {
   const dispatch = useDispatch();
+  const isLoading = useSelector(selectors.isLoading);
 
   return (
     <Item>
@@ -29,7 +32,7 @@ export const Contact = ({ id, name, number }) => {
           onClick={() => dispatch(deleteContact(id))}
           aria-label="Remove contact"
         >
-          <ImBin size={theme.sizes.iconM} />
+          {isLoading ? <LoaderSmall /> : <ImBin size={theme.sizes.iconM} />}
         </Button>
       </Box>
     </Item>

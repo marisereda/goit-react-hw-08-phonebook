@@ -1,5 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { fetchContacts, addContact, deleteContact } from './operations';
+import {
+  fetchContacts,
+  addContact,
+  deleteContact,
+  updateContact,
+} from './operations';
 
 const initialState = { values: [], isLoading: false, error: null };
 
@@ -8,7 +13,7 @@ const updateStateIfPending = state => {
 };
 
 const updateStateIfRejected = (state, action) => {
-  state.error = action.payload.message;
+  state.error = action.error?.message;
   state.isLoading = false;
 };
 
@@ -19,6 +24,7 @@ export const contactSlice = createSlice({
   reducers: {},
 
   extraReducers: {
+    // ---------------  get contacts  -----------------
     [fetchContacts.pending]: state => {
       updateStateIfPending(state);
     },
@@ -30,7 +36,7 @@ export const contactSlice = createSlice({
       updateStateIfRejected(state, action);
     },
 
-    // --------------------------------
+    // ---------------  add contacts  -----------------
     [addContact.pending]: state => {
       updateStateIfPending(state);
     },
@@ -43,7 +49,7 @@ export const contactSlice = createSlice({
           {
             id: action.payload.id,
             name: action.payload.name,
-            phone: action.payload.phone,
+            number: action.payload.number,
           },
         ],
       });
@@ -52,7 +58,30 @@ export const contactSlice = createSlice({
       updateStateIfRejected(state, action);
     },
 
-    // --------------------------------
+    // ---------------  update contacts  -----------------
+    [updateContact.pending]: state => {
+      updateStateIfPending(state);
+    },
+    [updateContact.fulfilled]: (state, action) => {
+      return (state = {
+        ...state,
+        isLoading: false,
+        values: state.values.map(value => {
+          if (value.id === action.payload.id) {
+            return {
+              id: action.payload.id,
+              name: action.payload.name,
+              number: action.payload.number,
+            };
+          } else return value;
+        }),
+      });
+    },
+    [updateContact.rejected]: (state, action) => {
+      updateStateIfRejected(state, action);
+    },
+
+    // ---------------  delete contact  -----------------
     [deleteContact.pending]: state => {
       updateStateIfPending(state);
     },

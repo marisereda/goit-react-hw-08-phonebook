@@ -1,7 +1,14 @@
 import PropTypes from 'prop-types';
 import { Box } from 'components/Box';
 
-export const Section = ({ title, bgColor = 'white', children }) => (
+export const Section = ({
+  title,
+  bgColor = 'white',
+  children,
+  backgroundImage = '',
+  backgroundPosition = '',
+  backgroundRepeat = '',
+}) => (
   <Box
     display="flex"
     flexWrap="wrap"
@@ -13,6 +20,9 @@ export const Section = ({ title, bgColor = 'white', children }) => (
     minWidth="sectionBox"
     bg={bgColor}
     boxShadow="primary"
+    backgroundImage={backgroundImage}
+    backgroundPosition={backgroundPosition}
+    backgroundRepeat={backgroundRepeat}
     as="section"
   >
     <h2>{title}</h2>

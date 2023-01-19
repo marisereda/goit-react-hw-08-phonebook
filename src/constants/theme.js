@@ -10,15 +10,20 @@ export const theme = {
   colors: {
     bgPrimary: '#ffffff',
     bgLight: '#f3f6f9',
-    bgButton: '#00bcd5',
+    // bgButton: '#00bcd5',
+    bgButton: '#00ABB3',
 
     label: '#00bcd5',
     textAccent: '#3c4756',
-    textPrimary: 'white',
+    textPrimary: '#ffffff',
+
+    link: '#ffffff',
+    linkHover: '#ffffff',
+    linkActive: '#ffffff',
   },
 
   sizes: {
-    buttonWidth: '100px',
+    buttonWidth: '150px',
     iconS: '15px',
     iconM: '20px',
     input: '300px',
