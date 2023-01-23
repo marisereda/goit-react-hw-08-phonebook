@@ -4,9 +4,15 @@ import {
   addContact,
   deleteContact,
   updateContact,
+  signOutUser,
 } from './operations';
 
-const initialState = { values: [], isLoading: false, error: null };
+const initialState = {
+  values: [],
+  addContactIsLoading: false,
+  isLoading: false,
+  error: null,
+};
 
 const updateStateIfPending = state => {
   state.isLoading = true;
@@ -38,12 +44,13 @@ export const contactSlice = createSlice({
 
     // ---------------  add contacts  -----------------
     [addContact.pending]: state => {
-      updateStateIfPending(state);
+      state.addContactIsLoading = true;
     },
     [addContact.fulfilled]: (state, action) => {
       return (state = {
         ...state,
-        isLoading: false,
+        isLoading: state.isLoading,
+        addContactIsLoading: false,
         values: [
           ...state.values,
           {
@@ -55,7 +62,8 @@ export const contactSlice = createSlice({
       });
     },
     [addContact.rejected]: (state, action) => {
-      updateStateIfRejected(state, action);
+      state.error = action.error?.message;
+      state.addContactIsLoading = false;
     },
 
     // ---------------  update contacts  -----------------
@@ -66,6 +74,7 @@ export const contactSlice = createSlice({
       return (state = {
         ...state,
         isLoading: false,
+        addContactIsLoading: false,
         values: state.values.map(value => {
           if (value.id === action.payload.id) {
             return {
@@ -89,11 +98,17 @@ export const contactSlice = createSlice({
       return (state = {
         ...state,
         isLoading: false,
+        addContactIsLoading: false,
         values: state.values.filter(value => value.id !== action.payload.id),
       });
     },
     [deleteContact.rejected]: (state, action) => {
       updateStateIfRejected(state, action);
+    },
+
+    // ---------------  log out user -----------------
+    [signOutUser.fulfilled]: (state, action) => {
+      state.values = [];
     },
   },
 });

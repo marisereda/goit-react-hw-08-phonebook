@@ -5,7 +5,9 @@ const initialState = {
   name: '',
   email: '',
   token: '',
-  fetching: false,
+  fetchingRegister: false,
+  fetchingLogIn: false,
+  fetchingLogOut: false,
   errorRegister: '',
   errorLogIn: '',
   errorLogOut: '',
@@ -25,18 +27,17 @@ export const userSlice = createSlice({
     // ---------------- Register User ----------------
 
     [registerUser.pending]: (state, action) => {
-      state.fetching = true;
+      state.fetchingRegister = true;
     },
     [registerUser.fulfilled]: (state, action) => {
-      state.fetching = false;
+      state.fetchingRegister = false;
       state.name = action.payload.user.name;
       state.email = action.payload.user.email;
       state.token = action.payload.token;
       state.errorRegister = '';
     },
     [registerUser.rejected]: (state, action) => {
-      console.log('action', action);
-      state.fetching = false;
+      state.fetchingRegister = false;
       state.name = '';
       state.email = '';
       state.token = '';
@@ -45,19 +46,16 @@ export const userSlice = createSlice({
     // ---------------  Log in User  -----------------
 
     [signInUser.pending]: (state, action) => {
-      state.fetching = true;
+      state.fetchingLogIn = true;
     },
     [signInUser.fulfilled]: (state, action) => {
-      state.fetching = false;
-      // state.name = action.payload.user.name;
+      state.fetchingLogIn = false;
       state.email = action.payload.user.email;
       state.token = action.payload.token;
       state.errorLogIn = '';
     },
     [signInUser.rejected]: (state, action) => {
-      console.log('action login rejected', action);
-
-      state.fetching = false;
+      state.fetchingLogIn = false;
       state.name = '';
       state.email = '';
       state.token = '';
@@ -67,20 +65,16 @@ export const userSlice = createSlice({
     // ---------------  Log out User  -----------------
 
     [signOutUser.pending]: (state, action) => {
-      state.fetching = true;
+      state.fetchingLogOut = true;
     },
     [signOutUser.fulfilled]: (state, action) => {
-      state.fetching = false;
-      // state.name = action.payload.user.name;
+      state.fetchingLogOut = false;
       state.email = '';
       state.token = '';
       state.errorLogOut = '';
     },
     [signOutUser.rejected]: (state, action) => {
-      console.log('action logout rejected', action);
-
-      state.fetching = false;
-
+      state.fetchingLogOut = false;
       state.errorLogOut = action.error.code;
     },
   },
