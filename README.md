@@ -14,7 +14,6 @@ The project demonstrates the use of Redux-toolkit library in async queries.
 - Styled-system
 - Styled components
 - Formik library
-- MockAPI
 
 The live Phonebook page is
 [here](https://marisereda.github.io/goit-react-hw-07-phonebook/).
