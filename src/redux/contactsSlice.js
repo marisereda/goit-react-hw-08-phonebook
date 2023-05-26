@@ -54,9 +54,9 @@ export const contactSlice = createSlice({
         values: [
           ...state.values,
           {
-            id: action.payload.id,
+            _id: action.payload._id,
             name: action.payload.name,
-            number: action.payload.number,
+            phone: action.payload.phone,
           },
         ],
       });
@@ -76,11 +76,11 @@ export const contactSlice = createSlice({
         isLoading: false,
         addContactIsLoading: false,
         values: state.values.map(value => {
-          if (value.id === action.payload.id) {
+          if (value._id === action.payload._id) {
             return {
-              id: action.payload.id,
+              _id: action.payload._id,
               name: action.payload.name,
-              number: action.payload.number,
+              phone: action.payload.phone,
             };
           } else return value;
         }),
@@ -99,7 +99,7 @@ export const contactSlice = createSlice({
         ...state,
         isLoading: false,
         addContactIsLoading: false,
-        values: state.values.filter(value => value.id !== action.payload.id),
+        values: state.values.filter(value => value._id !== action.payload._id),
       });
     },
     [deleteContact.rejected]: (state, action) => {

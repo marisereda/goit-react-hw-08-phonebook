@@ -14,12 +14,12 @@ import { selectors } from 'redux/selectors';
 
 const initialValues = {
   name: '',
-  number: '',
+  phone: '',
 };
 
 let schema = yup.object().shape({
   name: yup.string().required('Contact name is required'),
-  number: yup
+  phone: yup
     .string()
     .min(7, 'At least 7 digits is required')
     .max(12, 'At most 12 digits is required')
@@ -35,7 +35,7 @@ export const ContactForm = ({ saveContact }) => {
   const handleSubmit = (values, { resetForm }) => {
     saveContact({
       name: values.name.trim(),
-      number: values.number.trim(),
+      phone: values.phone.trim(),
     });
 
     resetForm();
@@ -70,14 +70,14 @@ export const ContactForm = ({ saveContact }) => {
                 />
                 <FormErrorMessage>{errors.name}</FormErrorMessage>
               </FormControl>
-              <FormControl isInvalid={errors.number}>
+              <FormControl isInvalid={errors.phone}>
                 <FormLabel>Number</FormLabel>
                 <Input
-                  name="number"
+                  name="phone"
                   type="tel"
                   icon={<PhoneIcon color="brand.600" boxSize="5" />}
                 />
-                <FormErrorMessage>{errors.number}</FormErrorMessage>
+                <FormErrorMessage>{errors.phone}</FormErrorMessage>
               </FormControl>
 
               <Button

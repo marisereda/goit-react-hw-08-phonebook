@@ -40,23 +40,23 @@ export const logOutUser = async user => {
 // ---------------  get contacts  -----------------
 export const getContacts = async () => {
   const response = await axios.get('/contacts');
-  return response.data;
+  return response.data.data;
 };
 
 // ---------------  update contact  -----------------
-export const patchContact = async ({ id, name, number }) => {
-  const response = await axios.put(`/contacts/${id}`, { name, number });
-  return response.data;
+export const patchContact = async ({ id, name, phone }) => {
+  const response = await axios.put(`/contacts/${id}`, { name, phone });
+  return response.data.data;
 };
 
 // ---------------  add contact  -----------------
-export const postContact = async ({ name, number }) => {
-  const response = await axios.post('/contacts', { name, number });
-  return response.data;
+export const postContact = async ({ name, phone }) => {
+  const response = await axios.post('/contacts', { name, phone: phone });
+  return response.data.data;
 };
 
 // ---------------  delete contact  -----------------
 export const removeContact = async id => {
   const response = await axios.delete(`/contacts/${id}`);
-  return response.data;
+  return response.data.data;
 };

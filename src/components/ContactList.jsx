@@ -43,8 +43,8 @@ export const ContactList = () => {
       <HeadingSection>Contacts</HeadingSection>
       <Filter />
       <VStack as="ul" alignItems="stretch" alignSelf="stretch">
-        {getFilteredContacts().map(({ id, name, number }) => (
-          <Contact key={id} id={id} name={name} number={number} />
+        {getFilteredContacts().map(({ _id: id, name, phone }) => (
+          <Contact key={id} id={id} name={name} phone={phone} />
         ))}
       </VStack>
     </VStack>

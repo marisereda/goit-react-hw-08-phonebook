@@ -15,12 +15,12 @@ const PhoneBook = () => {
   const [addingContact, setAddingContact] = useState({
     id: '',
     name: '',
-    number: '',
+    phone: '',
   });
   const [showDialog, setShowDialog] = useState(false);
 
   //---------------- Save Contact function ----------------
-  const saveContact = ({ name, number }) => {
+  const saveContact = ({ name, phone }) => {
     const seekingName = name.toLowerCase();
     const foundContact = contacts.find(
       contact => contact.name.toLowerCase().trim() === seekingName
@@ -28,12 +28,12 @@ const PhoneBook = () => {
 
     //  ==== there is no contact in contacts -> add contact
     if (!foundContact) {
-      dispatch(addContact({ name, number }));
+      dispatch(addContact({ name, phone }));
       return;
     }
 
     //  ==== there is contact in contacts -> show info & do nothing
-    if (foundContact.number === number.trim()) {
+    if (foundContact.phone === phone.trim()) {
       toast({
         description: `${name} is already in contacts!`,
         status: 'info',
@@ -42,7 +42,7 @@ const PhoneBook = () => {
     }
 
     //  ==== there is contact in contacts -> update contact? (show dialog)
-    setAddingContact({ id: foundContact.id, name, number });
+    setAddingContact({ id: foundContact._id, name, phone });
     setShowDialog(true);
   };
 
@@ -51,8 +51,8 @@ const PhoneBook = () => {
   const onCloseDialog = isConfirmed => {
     setShowDialog(false);
     if (isConfirmed) {
-      const { id, name, number } = addingContact;
-      dispatch(updateContact({ id, name, number }));
+      const { id, name, phone } = addingContact;
+      dispatch(updateContact({ id, name, phone }));
     }
   };
 

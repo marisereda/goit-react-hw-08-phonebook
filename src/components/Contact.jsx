@@ -6,7 +6,7 @@ import { Flex, Text, IconButton, Spinner } from '@chakra-ui/react';
 import { deleteContact } from 'redux/operations';
 import { selectors } from 'redux/selectors';
 
-export const Contact = ({ id, name, number }) => {
+export const Contact = ({ id, name, phone }) => {
   const dispatch = useDispatch();
   const isLoading = useSelector(selectors.isLoading);
 
@@ -17,7 +17,7 @@ export const Contact = ({ id, name, number }) => {
         {name}:
       </Text>
       <Text fontSize="xl" color="gray.600">
-        {number}
+        {phone}
       </Text>
       <IconButton
         name={id}
@@ -47,5 +47,5 @@ export const Contact = ({ id, name, number }) => {
 Contact.propTypes = {
   id: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
-  number: PropTypes.string.isRequired,
+  phone: PropTypes.string.isRequired,
 };
