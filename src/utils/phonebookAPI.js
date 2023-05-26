@@ -1,14 +1,19 @@
 import axios from 'axios';
 
-const BASE_URL = 'https://connections-api.herokuapp.com/';
+// const BASE_URL = 'https://connections-api.herokuapp.com/';
+const BASE_URL = 'http://localhost:3000/api/';
 
 axios.defaults.baseURL = BASE_URL;
 
 export function setAuthHeader(token) {
+  console.log('🚧 setToken:', token);
+
   axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
 }
 
 export function clearAuthHeader() {
+  console.log('🚧 clearToken:');
+
   axios.defaults.headers.common['Authorization'] = '';
 }
 
@@ -21,12 +26,14 @@ export const createUser = async user => {
 // ---------------  Log in User  -----------------
 export const logInUser = async user => {
   const response = await axios.post('/users/login', user);
+  console.log('🚧 response.data:', response.data.data);
+
   return response.data;
 };
 
 // ---------------  Log out User  -----------------
 export const logOutUser = async user => {
-  const response = await axios.post('/users/logout');
+  const response = await axios.get('/users/logout');
   return response.data;
 };
 
@@ -38,7 +45,7 @@ export const getContacts = async () => {
 
 // ---------------  update contact  -----------------
 export const patchContact = async ({ id, name, number }) => {
-  const response = await axios.patch(`/contacts/${id}`, { name, number });
+  const response = await axios.put(`/contacts/${id}`, { name, number });
   return response.data;
 };
 

@@ -7,6 +7,7 @@ export const selectors = {
   fetchingRegister: state => state.user.fetchingRegister,
   fetchingLogIn: state => state.user.fetchingLogIn,
   fetchingLogOut: state => state.user.fetchingLogOut,
+  successRegister: state => state.user.successRegister,
   isLoading: state => state.contacts.isLoading,
   addContactIsLoading: state => state.contacts.addContactIsLoading,
 };

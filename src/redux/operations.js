@@ -13,8 +13,10 @@ import {
 
 // ---------------- Register User ----------------
 export const registerUser = createAsyncThunk('user/create', async user => {
+  console.log('🚧 operation CREATE USER');
+
   const newUser = await createUser(user);
-  setAuthHeader(newUser.token);
+  // setAuthHeader(newUser.token);
   return newUser;
 });
 

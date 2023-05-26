@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { ImUser } from 'react-icons/im';
 import { useDispatch, useSelector } from 'react-redux';
 import { Formik } from 'formik';
@@ -43,8 +44,10 @@ let schema = yup.object().shape({
 
 const Register = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const errorRegister = useSelector(selectors.errorRegister);
   const fetchingRegister = useSelector(selectors.fetchingRegister);
+  const successRegister = useSelector(selectors.successRegister);
   const toast = useMyToast();
 
   // --------------- Errors handle  ---------------
@@ -61,14 +64,25 @@ const Register = () => {
       });
     }
 
+    if (successRegister) {
+      navigate('/login');
+      // navigate({ to: '/login', state: 'registerPage' });
+
+      toast({
+        description:
+          'You have successfully registered. Please, confirm your email by clicking on the link provided in the email you have just recieved. Then log in.',
+        status: 'success',
+      });
+    }
+
     dispatch(clearErrors());
-  }, [dispatch, errorRegister, toast]);
+  }, [dispatch, errorRegister, navigate, successRegister, toast]);
 
   // --------------- Submit handle ---------------
-  const handleSubmit = ({ name, email, password }, { resetForm }) => {
+  const handleSubmit = async ({ name, email, password }, { resetForm }) => {
     dispatch(clearErrors());
     dispatch(registerUser({ name, email, password }));
-    resetForm();
+    // resetForm();
   };
 
   // --------------- return ---------------

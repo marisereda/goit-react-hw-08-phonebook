@@ -1,4 +1,6 @@
 import { useEffect } from 'react';
+// import { useLocation } from 'react-router-dom';
+
 import { useDispatch, useSelector } from 'react-redux';
 import { Formik } from 'formik';
 import * as yup from 'yup';
@@ -17,11 +19,12 @@ import { signInUser } from 'redux/operations';
 import { selectors } from 'redux/selectors';
 import { clearErrors } from 'redux/userSlice';
 import { useMyToast } from 'hooks/useMyToast';
+// import { useSelector } from 'react-redux';
 
-const initialValues = {
-  email: '',
-  password: '',
-};
+// const initialValues = {
+//   email: '',
+//   password: '',
+// };
 
 let schema = yup.object().shape({
   email: yup.string().required('E-mail is required'),
@@ -29,10 +32,19 @@ let schema = yup.object().shape({
 });
 
 const LogIn = () => {
+  // const location = useLocation();
+  const email = useSelector(selectors.email);
+  // console.log('🚧 location:', location);
+
   const dispatch = useDispatch();
   const errorLogIn = useSelector(selectors.errorLogIn);
   const fetchingLogIn = useSelector(selectors.fetchingLogIn);
   const toast = useMyToast();
+
+  const initialValues = {
+    email: email ?? '',
+    password: '',
+  };
 
   // --------------- Errors handle  ---------------
   useEffect(() => {
