@@ -23,6 +23,9 @@ export const userSlice = createSlice({
       state.errorLogIn = '';
       state.errorLogOut = '';
     },
+    clearState: state => {
+      state = initialState;
+    },
   },
   extraReducers: {
     // ---------------- Register User ----------------
@@ -87,4 +90,4 @@ export const userSlice = createSlice({
 });
 
 export default userSlice.reducer;
-export const { clearErrors } = userSlice.actions;
+export const { clearErrors, clearState } = userSlice.actions;

@@ -11,6 +11,7 @@ const initialState = {
   values: [],
   addContactIsLoading: false,
   isLoading: false,
+  whoIsUpdating: [],
   error: null,
 };
 
@@ -20,6 +21,8 @@ const updateStateIfPending = state => {
 
 const updateStateIfRejected = (state, action) => {
   state.error = action.error?.message;
+  console.log('🚧 error:', state.error);
+
   state.isLoading = false;
 };
 
@@ -50,6 +53,7 @@ export const contactSlice = createSlice({
       return (state = {
         ...state,
         isLoading: state.isLoading,
+
         addContactIsLoading: false,
         values: [
           ...state.values,
@@ -67,13 +71,17 @@ export const contactSlice = createSlice({
     },
 
     // ---------------  update contacts  -----------------
-    [updateContact.pending]: state => {
+    [updateContact.pending]: (state, action) => {
       updateStateIfPending(state);
+      state.whoIsUpdating.push(action.meta.arg.id);
     },
     [updateContact.fulfilled]: (state, action) => {
       return (state = {
         ...state,
         isLoading: false,
+        whoIsUpdating: state.whoIsUpdating.filter(
+          id => id !== action.meta.arg.id
+        ),
         addContactIsLoading: false,
         values: state.values.map(value => {
           if (value._id === action.payload._id) {
@@ -88,22 +96,33 @@ export const contactSlice = createSlice({
     },
     [updateContact.rejected]: (state, action) => {
       updateStateIfRejected(state, action);
+      state.whoIsUpdating = state.whoIsUpdating.filter(
+        id => id !== action.meta.arg.id
+      );
     },
 
     // ---------------  delete contact  -----------------
-    [deleteContact.pending]: state => {
+    [deleteContact.pending]: (state, action) => {
+      console.log('🚧 action:', action);
+
       updateStateIfPending(state);
+      state.whoIsUpdating.push(action.meta.arg);
     },
     [deleteContact.fulfilled]: (state, action) => {
+      console.log('🚧 action2:', action);
       return (state = {
         ...state,
         isLoading: false,
+        whoIsUpdating: state.whoIsUpdating.filter(id => id !== action.meta.arg),
         addContactIsLoading: false,
         values: state.values.filter(value => value._id !== action.payload._id),
       });
     },
     [deleteContact.rejected]: (state, action) => {
       updateStateIfRejected(state, action);
+      state.whoIsUpdating = state.whoIsUpdating.filter(
+        id => id !== action.meta.arg
+      );
     },
 
     // ---------------  log out user -----------------

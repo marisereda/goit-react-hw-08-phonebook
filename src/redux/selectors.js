@@ -10,4 +10,7 @@ export const selectors = {
   successRegister: state => state.user.successRegister,
   isLoading: state => state.contacts.isLoading,
   addContactIsLoading: state => state.contacts.addContactIsLoading,
+  whoIsUpdating: state => state.contacts.whoIsUpdating,
+
+  errorContacts: state => state.contacts.error,
 };

@@ -8,7 +8,8 @@ import { selectors } from 'redux/selectors';
 
 export const Contact = ({ id, name, phone }) => {
   const dispatch = useDispatch();
-  const isLoading = useSelector(selectors.isLoading);
+  const whoIsUpdating = useSelector(selectors.whoIsUpdating);
+  console.log('🚧 whoIsUpdating:', whoIsUpdating);
 
   return (
     <Flex align="center" gap="2" as="li">
@@ -27,7 +28,7 @@ export const Contact = ({ id, name, phone }) => {
         color="brand.600"
         bg="transparent"
         icon={
-          isLoading ? (
+          whoIsUpdating.includes(id) ? (
             <Spinner
               thickness="4px"
               speed="0.65s"
