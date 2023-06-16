@@ -9,7 +9,6 @@ import { selectors } from 'redux/selectors';
 export const Contact = ({ id, name, phone }) => {
   const dispatch = useDispatch();
   const whoIsUpdating = useSelector(selectors.whoIsUpdating);
-  console.log('🚧 whoIsUpdating:', whoIsUpdating);
 
   return (
     <Flex align="center" gap="2" as="li">

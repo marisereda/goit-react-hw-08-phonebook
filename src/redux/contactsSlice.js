@@ -15,17 +15,6 @@ const initialState = {
   error: null,
 };
 
-const updateStateIfPending = state => {
-  state.isLoading = true;
-};
-
-const updateStateIfRejected = (state, action) => {
-  state.error = action.error?.message;
-  console.log('🚧 error:', state.error);
-
-  state.isLoading = false;
-};
-
 export const contactSlice = createSlice({
   name: 'contacts',
   initialState,
@@ -35,35 +24,26 @@ export const contactSlice = createSlice({
   extraReducers: {
     // ---------------  get contacts  -----------------
     [fetchContacts.pending]: state => {
-      updateStateIfPending(state);
+      state.isLoading = true;
+      state.error = null;
     },
     [fetchContacts.fulfilled]: (state, action) => {
       state.values = action.payload;
       state.isLoading = false;
     },
     [fetchContacts.rejected]: (state, action) => {
-      updateStateIfRejected(state, action);
+      state.error = action.error?.message;
+      state.isLoading = false;
     },
 
     // ---------------  add contacts  -----------------
     [addContact.pending]: state => {
       state.addContactIsLoading = true;
+      state.error = null;
     },
     [addContact.fulfilled]: (state, action) => {
-      return (state = {
-        ...state,
-        isLoading: state.isLoading,
-
-        addContactIsLoading: false,
-        values: [
-          ...state.values,
-          {
-            _id: action.payload._id,
-            name: action.payload.name,
-            phone: action.payload.phone,
-          },
-        ],
-      });
+      state.addContactIsLoading = false;
+      state.values.push(action.payload);
     },
     [addContact.rejected]: (state, action) => {
       state.error = action.error?.message;
@@ -72,30 +52,19 @@ export const contactSlice = createSlice({
 
     // ---------------  update contacts  -----------------
     [updateContact.pending]: (state, action) => {
-      updateStateIfPending(state);
       state.whoIsUpdating.push(action.meta.arg.id);
+      state.error = null;
     },
     [updateContact.fulfilled]: (state, action) => {
-      return (state = {
-        ...state,
-        isLoading: false,
-        whoIsUpdating: state.whoIsUpdating.filter(
-          id => id !== action.meta.arg.id
-        ),
-        addContactIsLoading: false,
-        values: state.values.map(value => {
-          if (value._id === action.payload._id) {
-            return {
-              _id: action.payload._id,
-              name: action.payload.name,
-              phone: action.payload.phone,
-            };
-          } else return value;
-        }),
-      });
+      state.whoIsUpdating = state.whoIsUpdating.filter(
+        id => id !== action.payload._id
+      );
+      state.values = state.values.map(value =>
+        value._id === action.payload._id ? { ...action.payload } : value
+      );
     },
     [updateContact.rejected]: (state, action) => {
-      updateStateIfRejected(state, action);
+      state.error = action.error?.message;
       state.whoIsUpdating = state.whoIsUpdating.filter(
         id => id !== action.meta.arg.id
       );
@@ -103,23 +72,22 @@ export const contactSlice = createSlice({
 
     // ---------------  delete contact  -----------------
     [deleteContact.pending]: (state, action) => {
-      console.log('🚧 action:', action);
-
-      updateStateIfPending(state);
+      state.isLoading = true;
+      state.error = null;
       state.whoIsUpdating.push(action.meta.arg);
     },
     [deleteContact.fulfilled]: (state, action) => {
-      console.log('🚧 action2:', action);
-      return (state = {
-        ...state,
-        isLoading: false,
-        whoIsUpdating: state.whoIsUpdating.filter(id => id !== action.meta.arg),
-        addContactIsLoading: false,
-        values: state.values.filter(value => value._id !== action.payload._id),
-      });
+      state.whoIsUpdating = state.whoIsUpdating.filter(
+        id => id !== action.meta.arg
+      );
+      state.addContactIsLoading = false;
+      state.values = state.values.filter(
+        value => value._id !== action.payload._id
+      );
     },
     [deleteContact.rejected]: (state, action) => {
-      updateStateIfRejected(state, action);
+      state.error = action.error?.message;
+      state.isLoading = false;
       state.whoIsUpdating = state.whoIsUpdating.filter(
         id => id !== action.meta.arg
       );

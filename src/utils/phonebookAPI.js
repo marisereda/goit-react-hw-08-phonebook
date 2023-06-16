@@ -1,19 +1,12 @@
 import axios from 'axios';
 
-// const BASE_URL = 'https://connections-api.herokuapp.com/';
-const BASE_URL = 'http://localhost:3000/api/';
-
-axios.defaults.baseURL = BASE_URL;
+axios.defaults.baseURL = process.env.REACT_APP_BASE_URL;
 
 export function setAuthHeader(token) {
-  console.log('🚧 setToken:', token);
-
   axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
 }
 
 export function clearAuthHeader() {
-  console.log('🚧 clearToken:');
-
   axios.defaults.headers.common['Authorization'] = '';
 }
 
@@ -26,7 +19,6 @@ export const createUser = async user => {
 // ---------------  Log in User  -----------------
 export const logInUser = async user => {
   const response = await axios.post('/users/login', user);
-  console.log('🚧 response.data:', response.data.data);
 
   return response.data;
 };

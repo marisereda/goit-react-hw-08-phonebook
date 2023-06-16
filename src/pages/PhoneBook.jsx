@@ -27,8 +27,6 @@ const PhoneBook = () => {
 
   useEffect(() => {
     if (error === 'Request failed with status code 401') {
-      console.log('🚧 UseEff phonebook: ERROR 401');
-
       clearAuthHeader();
       dispatch(clearState);
     }

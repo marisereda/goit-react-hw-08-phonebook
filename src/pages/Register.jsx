@@ -66,7 +66,6 @@ const Register = () => {
 
     if (successRegister) {
       navigate('/login');
-      // navigate({ to: '/login', state: 'registerPage' });
 
       toast({
         description:
@@ -79,10 +78,10 @@ const Register = () => {
   }, [dispatch, errorRegister, navigate, successRegister, toast]);
 
   // --------------- Submit handle ---------------
-  const handleSubmit = async ({ name, email, password }, { resetForm }) => {
+  const handleSubmit = async ({ name, email, password }) => {
     dispatch(clearErrors());
     dispatch(registerUser({ name, email, password }));
-    // resetForm();
+
   };
 
   // --------------- return ---------------

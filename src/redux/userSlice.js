@@ -39,7 +39,6 @@ export const userSlice = createSlice({
       state.name = action.payload.user.name;
       state.email = action.payload.user.email;
       state.successRegister = true;
-      // state.token = action.payload.token;
       state.errorRegister = '';
     },
     [registerUser.rejected]: (state, action) => {
@@ -49,8 +48,6 @@ export const userSlice = createSlice({
       state.token = '';
       state.errorRegister = action.error.code;
       state.successRegister = false;
-
-      console.log('🚧 error:', action.error);
     },
     // ---------------  Log in User  -----------------
 
