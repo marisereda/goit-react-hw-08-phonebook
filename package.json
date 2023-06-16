@@ -2,7 +2,7 @@
   "name": "goit-react-hw-08-phonebook",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://marisereda.github.io/goit-react-hw-08-phonebook/",
+  "homepage": "",
   "dependencies": {
     "@chakra-ui/icons": "^2.0.16",
     "@chakra-ui/modal": "^2.2.9",
