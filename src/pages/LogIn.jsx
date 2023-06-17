@@ -53,10 +53,9 @@ const LogIn = () => {
   }, [dispatch, errorLogIn, toast]);
 
   // --------------- Submit handle ---------------
-  const handleSubmit = ({ email, password }, { resetForm }) => {
+  const handleSubmit = ({ email, password }) => {
     dispatch(clearErrors());
     dispatch(signInUser({ email, password }));
-    resetForm();
   };
 
   // --------------- return ---------------

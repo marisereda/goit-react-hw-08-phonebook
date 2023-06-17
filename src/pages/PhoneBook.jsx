@@ -14,6 +14,7 @@ import { clearState } from 'redux/userSlice';
 
 const PhoneBook = () => {
   const contacts = useSelector(selectContacts);
+
   const error = useSelector(selectors.errorContacts);
 
   const dispatch = useDispatch();
@@ -28,7 +29,7 @@ const PhoneBook = () => {
   useEffect(() => {
     if (error === 'Request failed with status code 401') {
       clearAuthHeader();
-      dispatch(clearState);
+      dispatch(clearState());
     }
   }, [dispatch, error]);
 
