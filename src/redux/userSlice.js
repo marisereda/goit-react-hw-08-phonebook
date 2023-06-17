@@ -23,7 +23,7 @@ export const userSlice = createSlice({
       state.errorLogIn = '';
       state.errorLogOut = '';
     },
-    clearState: state => {
+    clearUserState: state => {
       return { ...initialState };
     },
   },
@@ -87,4 +87,4 @@ export const userSlice = createSlice({
 });
 
 export default userSlice.reducer;
-export const { clearErrors, clearState } = userSlice.actions;
+export const { clearErrors, clearUserState } = userSlice.actions;

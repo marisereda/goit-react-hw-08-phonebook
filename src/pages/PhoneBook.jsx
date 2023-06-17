@@ -10,7 +10,8 @@ import { selectors } from 'redux/selectors';
 import { addContact, updateContact } from 'redux/operations';
 import { useMyToast } from 'hooks/useMyToast';
 import { clearAuthHeader } from 'utils/phonebookAPI';
-import { clearState } from 'redux/userSlice';
+import { clearUserState } from 'redux/userSlice';
+import { clearContactsState } from 'redux/contactsSlice';
 
 const PhoneBook = () => {
   const contacts = useSelector(selectContacts);
@@ -29,7 +30,8 @@ const PhoneBook = () => {
   useEffect(() => {
     if (error === 'Request failed with status code 401') {
       clearAuthHeader();
-      dispatch(clearState());
+      dispatch(clearContactsState());
+      dispatch(clearUserState());
     }
   }, [dispatch, error]);
 

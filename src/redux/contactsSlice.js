@@ -19,7 +19,11 @@ export const contactSlice = createSlice({
   name: 'contacts',
   initialState,
 
-  reducers: {},
+  reducers: {
+    clearContactsState: state => {
+      return { ...initialState };
+    },
+  },
 
   extraReducers: {
     // ---------------  get contacts  -----------------
@@ -100,5 +104,6 @@ export const contactSlice = createSlice({
   },
 });
 
+export const { clearContactsState } = contactSlice.actions;
 export const selectContacts = state => state.contacts.values;
 export default contactSlice.reducer;
